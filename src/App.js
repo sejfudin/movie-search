@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { observer, inject } from 'mobx-react';
+import MoviesList from './components/MoviesList/MoviesList';
+import Movie from './components/Movie/Movie'
+import Nav from './components/Nav/Nav';
+import Search from './components/Search/Search';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
+import "./main.css";
+import ShowsList from './components/ShowsList/ShowsList';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+    render() {
+        return (
+            <BrowserRouter>
+                <div className="movies-container">
+                    <Nav />
+                    <Search />
+                    <Switch>
+                        <Route path="/Movies" component={MoviesList} />
+                        <Route path="/" exact component={ShowsList} />
+                        <Route path="/details" component={Movie} />
+                    </Switch>
+                </div>
+            </BrowserRouter>
+        )
+    }
 }
-
-export default App;
+export default inject("MovieStore")(observer(App));
